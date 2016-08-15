@@ -5,11 +5,11 @@ using Rhino.Commands;
 using Rhino.Input;
 using Rhino.Input.Custom;
 
-namespace MockingBird
+namespace MockingBirdIntro
 {
-	public class MockingBirdCommand : Command
+	public class MockingBirdIntroCommand : Command
 	{
-		public MockingBirdCommand()
+		public MockingBirdIntroCommand()
 		{
 			// Rhino only creates one instance of each command class defined in a
 			// plug-in, so it is safe to store a refence in a static property.
@@ -17,7 +17,7 @@ namespace MockingBird
 		}
 
 		///<summary>The only instance of this command.</summary>
-		public static MockingBirdCommand Instance
+		public static MockingBirdIntroCommand Instance
 		{
 			get; private set;
 		}
@@ -25,13 +25,13 @@ namespace MockingBird
 		///<returns>The command name as it appears on the Rhino command line.</returns>
 		public override string EnglishName
 		{
-			get { return "MockingBirdCommand"; }
+			get { return "MockingBirdIntroCommand"; }
 		}
 
 		protected override Result RunCommand(RhinoDoc doc, RunMode mode)
 		{
 			// Usually commands in rendering plug-ins are used to modify settings and behavior.
-			// The rendering work itself is performed by the MockingBirdPlugIn class.
+			// The rendering work itself is performed by the MockingBirdIntroPlugIn class.
 
 			return Result.Success;
 		}

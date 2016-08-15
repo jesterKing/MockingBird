@@ -8,8 +8,8 @@
     <ProjectGuid>{CCB6AB63-FDEF-44AC-9C1F-7ECA810D5B75}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MockingBird</RootNamespace>
-    <AssemblyName>MockingBird</AssemblyName>
+    <RootNamespace>MockingBirdIntro</RootNamespace>
+    <AssemblyName>MockingBirdIntro</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -53,8 +53,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MockingBirdCommand.cs" />
-    <Compile Include="MockingBirdPlugIn.cs" />
+    <Compile Include="MockingBirdIntroCommand.cs" />
+    <Compile Include="MockingBirdIntroPlugIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

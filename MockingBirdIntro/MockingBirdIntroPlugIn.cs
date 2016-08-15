@@ -1,7 +1,8 @@
 ﻿using System;
 using Rhino;
+using Rhino.Commands;
 
-namespace MockingBird
+namespace MockingBirdIntro
 {
 	///<summary>
 	/// <para>Every RhinoCommon .rhp assembly must have one and only one PlugIn-derived
@@ -11,16 +12,16 @@ namespace MockingBird
 	/// attributes in AssemblyInfo.cs (you might need to click "Project" ->
 	/// "Show All Files" to see it in the "Solution Explorer" window).</para>
 	///</summary>
-	public class MockingBirdPlugIn : Rhino.PlugIns.RenderPlugIn
+	public class MockingBirdIntroPlugIn : Rhino.PlugIns.RenderPlugIn
 
 	{
-		public MockingBirdPlugIn()
+		public MockingBirdIntroPlugIn()
 		{
-			Instance = this;
+			if(Instance == null) Instance = this;
 		}
 
-		///<summary>Gets the only instance of the MockingBirdPlugIn plug-in.</summary>
-		public static MockingBirdPlugIn Instance
+		///<summary>Gets the only instance of the MockingBirdIntroPlugIn plug-in.</summary>
+		public static MockingBirdIntroPlugIn Instance
 		{
 			get; private set;
 		}
@@ -34,7 +35,7 @@ namespace MockingBird
 		/// <returns>The result of the command.</returns>
 		protected override Rhino.Commands.Result Render(RhinoDoc doc, Rhino.Commands.RunMode mode, bool fastPreview)
 		{
-			throw new NotImplementedException("Render is not implemented in the MockingBird.MockingBirdPlugIn class.");
+			return Result.Success;
 		}
 
 		/// <summary>
@@ -49,7 +50,7 @@ namespace MockingBird
 		/// <returns>The result of the command.</returns>
 		protected override Rhino.Commands.Result RenderWindow(RhinoDoc doc, Rhino.Commands.RunMode mode, bool fastPreview, Rhino.Display.RhinoView view, System.Drawing.Rectangle rect, bool inWindow)
 		{
-			throw new NotImplementedException("RenderWindow is not implemented by the MockingBird.MockingBirdPlugIn class.");
+			return Result.Success;
 		}
 
 		// You can override methods here to change the plug-in behavior on

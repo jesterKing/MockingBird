@@ -6,24 +6,24 @@ using Rhino.PlugIns;
 
 // Plug-in Description Attributes - all of these are optional
 // These will show in Rhino's option dialog, in the tab Plug-ins
-[assembly: PlugInDescription(DescriptionType.Address, "-")]
-[assembly: PlugInDescription(DescriptionType.Country, "-")]
-[assembly: PlugInDescription(DescriptionType.Email, "-")]
+[assembly: PlugInDescription(DescriptionType.Address, "Turku")]
+[assembly: PlugInDescription(DescriptionType.Country, "Finland")]
+[assembly: PlugInDescription(DescriptionType.Email, "jesterking@letwory.net")]
 [assembly: PlugInDescription(DescriptionType.Phone, "-")]
 [assembly: PlugInDescription(DescriptionType.Fax, "-")]
-[assembly: PlugInDescription(DescriptionType.Organization, "-")]
+[assembly: PlugInDescription(DescriptionType.Organization, "Letwory Interactive")]
 [assembly: PlugInDescription(DescriptionType.UpdateUrl, "-")]
-[assembly: PlugInDescription(DescriptionType.WebSite, "-")]
+[assembly: PlugInDescription(DescriptionType.WebSite, "http://www.letworyinteractive.com")]
 
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MockingBird")] // Plug-In title is extracted from this
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("MockingBird (intro)")] // Plug-In title is extracted from this
+[assembly: AssemblyDescription("A sample render plug-in for Rhinoceros 6")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MockingBird")]
+[assembly: AssemblyCompany("Letwory Interactive")]
+[assembly: AssemblyProduct("MockingBird (intro)")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
