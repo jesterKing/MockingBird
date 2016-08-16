@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockingBirdIntro", "MockingBirdIntro\MockingBirdIntro.csproj", "{CCB6AB63-FDEF-44AC-9C1F-7ECA810D5B75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockingBirdModal", "MockingBirdModal\MockingBirdModal.csproj", "{54ED5473-9B73-45B0-BF98-F9A9B2213A4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{CCB6AB63-FDEF-44AC-9C1F-7ECA810D5B75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCB6AB63-FDEF-44AC-9C1F-7ECA810D5B75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCB6AB63-FDEF-44AC-9C1F-7ECA810D5B75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54ED5473-9B73-45B0-BF98-F9A9B2213A4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54ED5473-9B73-45B0-BF98-F9A9B2213A4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54ED5473-9B73-45B0-BF98-F9A9B2213A4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54ED5473-9B73-45B0-BF98-F9A9B2213A4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
