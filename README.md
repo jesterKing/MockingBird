@@ -8,4 +8,5 @@ After cloning the project users may want to change DLL reference paths and
 adjust Start program setting to correspond to their Rhino WIP (v6) installations.
 
 Contact jesterKing (nathan@mcneel.com) for questions about the project, or join
-in on the discussion regarding Rhino WIP @ https://discourse.mcneel.com/c/serengeti.
+in on the discussion regarding Rhino WIP @ https://discourse.mcneel.com/c/serengeti. On
+the Discourse forum you can contact me @nathanletwory .
