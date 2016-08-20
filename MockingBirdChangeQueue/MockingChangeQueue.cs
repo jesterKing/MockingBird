@@ -25,7 +25,11 @@ namespace MockingBirdChangeQueue
 			: base(pluginId, docRuntimeSerialNumber, viewinfo)
 		{
 		}
-
+		
+		/// <summary>
+		/// The camera information.
+		/// </summary>
+		/// <param name="viewInfo">new viewport info</param>
 		protected override void ApplyViewChange(ViewInfo viewInfo)
 		{
 			var vp = viewInfo.Viewport;
@@ -38,11 +42,18 @@ namespace MockingBirdChangeQueue
 
 		protected override void ApplyEnvironmentChanges(RenderEnvironment.Usage usage)
 		{
-			// background/skylight/reflection environments
+			// background - when camera ray doesn't hit any geometry
+			// skylight - image-based lighting
+			// reflection - what is seen in reflections
 			var env = EnvironmentForid(EnvironmentIdForUsage(usage));
 			RhinoApp.WriteLine(env != null ? $"{usage} {env.Name}" : $"No env for {usage}");
 		}
 
+		/// <summary>
+		/// Lights in the scene, including any automatic lighting
+		/// (will be CameraDirectional)
+		/// </summary>
+		/// <param name="lightChanges">List of <code>Light</code>s</param>
 		protected override void ApplyLightChanges(List<Light> lightChanges)
 		{
 			foreach (var light in lightChanges)
@@ -61,8 +72,8 @@ namespace MockingBirdChangeQueue
 		/// <summary>
 		/// Get all geometry data.
 		/// </summary>
-		/// <param name="deleted"></param>
-		/// <param name="added"></param>
+		/// <param name="deleted">List of Mesh instance IDs</param>
+		/// <param name="added">List of <code>Mesh</code>es to add</param>
 		protected override void ApplyMeshChanges(Guid[] deleted, List<Mesh> added)
 		{
 			RhinoApp.WriteLine($"Received {added.Count} new meshes, {deleted.Length} for deletion");
@@ -71,21 +82,29 @@ namespace MockingBirdChangeQueue
 				var totalVerts = 0;
 				var totalFaces = 0;
 				var totalQuads = 0;
-				var mesh_index = 0;
+				var meshIndex = 0;
 				RhinoApp.WriteLine($"\t{m.Id()} with {m.GetMeshes().Length} submeshes");
 				foreach (var sm in m.GetMeshes())
 				{
-					RhinoApp.WriteLine($"\t\tmesh index {mesh_index} mesh with {sm.Vertices.Count} verts, {sm.Faces.Count} faces ({sm.Faces.QuadCount} quads).");
+					RhinoApp.WriteLine($"\t\tmesh index {meshIndex} mesh with {sm.Vertices.Count} verts, {sm.Faces.Count} faces ({sm.Faces.QuadCount} quads).");
 					totalVerts += sm.Vertices.Count;
 					totalFaces += sm.Faces.Count;
 					totalQuads += sm.Faces.QuadCount;
-					RhinoApp.WriteLine($"\t\tFor material we remember ({m.Id()},{mesh_index}) as identifier. Connect dots in ApplyMeshInstanceChanged");
-					mesh_index++;
+					RhinoApp.WriteLine($"\t\tFor material we remember ({m.Id()},{meshIndex}) as identifier. Connect dots in ApplyMeshInstanceChanged");
+					meshIndex++;
 				}
 				RhinoApp.WriteLine($"\t{totalVerts} verts, {totalFaces} faces (of which {totalQuads} quads)");
 			}
 		}
 
+		/// <summary>
+		/// Mesh instances added or deleted. Mesh instances here really means the
+		/// objects in a scene. More than one object can reference the same geometry.
+		/// For a single-shot render (production render) this is also where
+		/// materials for the scene are provided.
+		/// </summary>
+		/// <param name="deleted">Objects to delete, a list of unsigned ints</param>
+		/// <param name="addedOrChanged">List of MeshInstances (objects)</param>
 		protected override void ApplyMeshInstanceChanges(List<uint> deleted, List<MeshInstance> addedOrChanged)
 		{
 			RhinoApp.WriteLine($"Received {addedOrChanged.Count} mesh instances to be either added or changed");
