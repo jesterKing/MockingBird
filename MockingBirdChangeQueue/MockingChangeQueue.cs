@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 using Rhino;
 using Rhino.Render.ChangeQueue;
 using Rhino.DocObjects;
+using Rhino.Geometry;
 using Rhino.Render;
+using Light = Rhino.Render.ChangeQueue.Light;
 using Material = Rhino.Render.ChangeQueue.Material;
+using Mesh = Rhino.Render.ChangeQueue.Mesh;
 
 namespace MockingBirdChangeQueue
 {
@@ -45,6 +48,13 @@ namespace MockingBirdChangeQueue
 			foreach (var light in lightChanges)
 			{
 				RhinoApp.WriteLine($"A {light.ChangeType} light. {light.Data.Name}, {light.Data.LightStyle}");
+				if (light.Data.LightStyle == LightStyle.CameraDirectional)
+				{
+					RhinoApp.WriteLine("Use ChangeQueue.ConvertCameraBasedLightToWorld() to convert light transform to world");
+					RhinoApp.WriteLine($"\told location {light.Data.Location}, direction {light.Data.Direction}");
+					ConvertCameraBasedLightToWorld(this, light, GetQueueView());
+					RhinoApp.WriteLine($"\tnew location {light.Data.Location}, direction {light.Data.Direction}");
+				}
 			}
 		}
 
