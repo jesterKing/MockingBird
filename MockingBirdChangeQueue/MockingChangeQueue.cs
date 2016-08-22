@@ -47,6 +47,7 @@ namespace MockingBirdChangeQueue
 			// reflection - what is seen in reflections
 			var env = EnvironmentForid(EnvironmentIdForUsage(usage));
 			RhinoApp.WriteLine(env != null ? $"{usage} {env.Name}" : $"No env for {usage}");
+			// retrieving textures is with RenderMaterial, refer to HandleRenderMaterial()
 		}
 
 		/// <summary>
@@ -112,8 +113,34 @@ namespace MockingBirdChangeQueue
 			{
 				var mat = MaterialFromId(mi.MaterialId);
 				RhinoApp.WriteLine($"\tAdd or change object {mi.InstanceId} uses mesh <{mi.MeshId}, {mi.MeshIndex}>, and material {mi.MaterialId}, named {mat.Name})");
+				HandleRenderMaterial(mat);
+
 			}
 			// For single-shot rendering there won't be deletions.
+		}
+
+		private void HandleRenderMaterial(RenderMaterial material)
+		{
+			RhinoApp.WriteLine($"\t\tMaterial {material.Name} is a {material.TypeName} ({material.TypeDescription})");
+			
+			var diffchan = material.TextureChildSlotName(RenderMaterial.StandardChildSlots.Diffuse);
+			var difftex = material.FindChild(diffchan) as RenderTexture;
+			if (difftex != null)
+			{
+				RhinoApp.WriteLine($"\t\t\ta diffuse texture was found {difftex.Name}, hash {difftex.RenderHashWithoutLocalMapping}");
+				RhinoApp.WriteLine($"\t\t\tprojection {difftex.GetProjectionMode()}, env mapping {difftex.GetInternalEnvironmentMappingMode()}");
+				RhinoApp.WriteLine($"\t\t\tlocal mapping xform {difftex.LocalMappingTransform}");
+				var texeval = difftex.CreateEvaluator(RenderTexture.TextureEvaluatorFlags.DisableLocalMapping);
+				int u, v, w;
+				difftex.PixelSize(out u, out v, out w);
+				// for procedural textures there's no u/v/w, so check for that and set
+				// to some acceptable defaults.
+				if (u == 0) u = 1024;
+				if (v == 0) v = 1024;
+				if (w == 0) w = 1;
+				RhinoApp.WriteLine($"\t\t\tTexture size {u}x{v}x{w}");
+			}
+
 		}
 	}
 }
