@@ -29,18 +29,8 @@ namespace MockingBirdModal
 			// initialise our pipeline implementation
 			RenderPipeline pipeline = new MockingRenderPipeline(doc, mode, this, rc);
 
-			// query for render resolution
-			var renderSize = RenderPipeline.RenderSize(doc);
-
-			// set up view info
-			ViewInfo viewInfo = new ViewInfo(doc.Views.ActiveView.ActiveViewport);
-
-			// set up render window
-			rc.RenderWindow = pipeline.GetRenderWindow();
-			// add a wireframe channel for curves/wireframes/annotation etc.
-			rc.RenderWindow.AddWireframeChannel(doc, viewInfo.Viewport, renderSize, new Rectangle(0, 0, renderSize.Width, renderSize.Height));
-			// set correct size
-			rc.RenderWindow.SetSize(renderSize);
+			// get the render window where we will put our render result
+			rc.RenderWindow = pipeline.GetRenderWindow(true);
 
 			// now fire off render thread.
 			var renderCode = pipeline.Render();

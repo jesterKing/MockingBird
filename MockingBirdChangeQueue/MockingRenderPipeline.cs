@@ -21,11 +21,11 @@ namespace MockingBirdChangeQueue
 
 		protected override bool OnRenderBegin()
 		{
-			m_rc.Thread = new Thread(m_rc.Renderer)
+			m_rc.RenderThread = new Thread(m_rc.Renderer)
 			{
 				Name = "MockingBird Modal Rendering thread"
 			};
-			m_rc.Thread.Start();
+			m_rc.RenderThread.Start();
 			return true;
 		}
 

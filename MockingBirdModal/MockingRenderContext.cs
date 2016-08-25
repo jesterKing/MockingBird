@@ -12,15 +12,6 @@ namespace MockingBirdModal
 	/// </summary>
 	public class MockingRenderContext : AsyncRenderContext
 	{
-		/// <summary>
-		/// Hold on to the thread
-		/// </summary>
-		public Thread Thread { get; set; }
-		/// <summary>
-		/// Hold on to the render window (note, may be moved to base class
-		/// AsyncRenderContext
-		/// </summary>
-		public RenderWindow RenderWindow { get; set; }
 		public bool Done { get; private set; }
 		private bool Cancel { get; set; }
 
