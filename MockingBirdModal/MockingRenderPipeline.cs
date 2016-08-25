@@ -21,12 +21,7 @@ namespace MockingBirdModal
 
 		protected override bool OnRenderBegin()
 		{
-			m_rc.RenderThread = new Thread(m_rc.Renderer)
-			{
-				Name = "MockingBird Modal Rendering thread"
-			};
-			m_rc.RenderThread.Start();
-			return true;
+			return m_rc.StartRenderThread(m_rc.Renderer, "MockingBird Modal Rendering thread");
 		}
 
 		protected override bool OnRenderBeginQuiet(Size imageSize)

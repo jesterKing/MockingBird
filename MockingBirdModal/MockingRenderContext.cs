@@ -13,16 +13,7 @@ namespace MockingBirdModal
 	public class MockingRenderContext : AsyncRenderContext
 	{
 		public bool Done { get; private set; }
-		private bool Cancel { get; set; }
 
-		/// <summary>
-		/// Called when through UI interaction the render process is to be
-		/// stopped.
-		/// </summary>
-		public override void StopRendering()
-		{
-			Cancel = true;
-		}
 
 		// our main rendering function.
 		public void Renderer()
