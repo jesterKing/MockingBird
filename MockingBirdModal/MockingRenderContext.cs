@@ -14,11 +14,15 @@ namespace MockingBirdModal
 	{
 		public bool Done { get; private set; }
 
+		private bool Paused { get; set; }
+
 
 		// our main rendering function.
 		public void Renderer()
 		{
 			RhinoApp.WriteLine("Starting modal MockingBird");
+
+			Paused = false;
 
 			Done = false;
 			using (var channel = RenderWindow.OpenChannel(RenderWindow.StandardChannels.RGBA))
@@ -32,7 +36,10 @@ namespace MockingBirdModal
 					{
 						channel.SetValue(x, y, Color4f.FromArgb(1.0f, 1.0f, 0.75f, 0.5f));
 						rendered++;
-						Thread.Sleep(1);
+						do
+						{
+							Thread.Sleep(1);
+						} while (Paused);
 						RenderWindow.SetProgress("rendering...", rendered/max);
 					}
 					if (Cancel) break;
@@ -48,6 +55,21 @@ namespace MockingBirdModal
 
 			Done = true;
 			RhinoApp.WriteLine("... done");
+		}
+
+		public override bool SupportsPause()
+		{
+			return true;
+		}
+
+		public override void PauseRendering()
+		{
+			Paused = true;
+		}
+
+		public override void ResumeRendering()
+		{
+			Paused = false;
 		}
 	}
 }

@@ -44,5 +44,20 @@ namespace MockingBirdModal
 		{
 			return !m_rc.Done;
 		}
+
+		public override bool SupportsPause()
+		{
+			return true;
+		}
+
+		public override void PauseRendering()
+		{
+			m_rc.PauseRendering();
+		}
+
+		public override void ResumeRendering()
+		{
+			m_rc.ResumeRendering();
+		}
 	}
 }
