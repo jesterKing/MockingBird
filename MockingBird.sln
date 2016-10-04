@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockingBirdModal", "Mocking
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockingBirdChangeQueue", "MockingBirdChangeQueue\MockingBirdChangeQueue.csproj", "{4CE5B976-AE3D-4EA5-83DE-CD498A6E731D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockingBirdViewport", "MockingBirdViewport\MockingBirdViewport.csproj", "{EFD35550-4482-4F45-8EB1-75959E38A7DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4CE5B976-AE3D-4EA5-83DE-CD498A6E731D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CE5B976-AE3D-4EA5-83DE-CD498A6E731D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CE5B976-AE3D-4EA5-83DE-CD498A6E731D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFD35550-4482-4F45-8EB1-75959E38A7DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFD35550-4482-4F45-8EB1-75959E38A7DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFD35550-4482-4F45-8EB1-75959E38A7DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFD35550-4482-4F45-8EB1-75959E38A7DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
