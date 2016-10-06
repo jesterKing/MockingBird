@@ -9,9 +9,7 @@ namespace MockingBirdViewport
 {
 public class MockingRealtimeDisplayModeInfo : RealtimeDisplayModeClassInfo
 {
-	public override string ClassName => FullName;
-
-	public override string FullName => "MockingRealtimeMode";
+	public override string Name => "MockingRealtimeMode";
 
 	public override Guid GUID => new Guid("F14A3A24-C2FB-4216-9D2A-9636EF3869FA");
 
