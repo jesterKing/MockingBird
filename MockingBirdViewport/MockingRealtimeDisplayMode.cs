@@ -26,7 +26,7 @@ namespace MockingBirdViewport
 		public override bool StartRenderer(int w, int h, RhinoDoc doc, ViewInfo view, ViewportInfo viewportInfo, bool forCapture,
 			RenderWindow renderWindow)
 		{
-			System.Diagnostics.Debug.WriteLine("Prepare rendering");
+			_started = true;
 			// prepare render, get a changequeue
 			_width = (int)w;
 			_height = (int)h;
