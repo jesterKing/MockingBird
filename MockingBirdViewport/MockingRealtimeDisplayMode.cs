@@ -23,7 +23,7 @@ namespace MockingBirdViewport
 		private MockingRender reng;
 		private Thread _theThread;
 
-		public override bool StartRenderer(uint w, uint h, RhinoDoc doc, ViewInfo view, ViewportInfo viewportInfo, bool forCapture,
+		public override bool StartRenderer(int w, int h, RhinoDoc doc, ViewInfo view, ViewportInfo viewportInfo, bool forCapture,
 			RenderWindow renderWindow)
 		{
 			System.Diagnostics.Debug.WriteLine("Prepare rendering");
@@ -39,6 +39,7 @@ namespace MockingBirdViewport
 			reng.RenderReset += Reng_RenderReset;
 			reng.RenderStarted += Reng_RenderStarted;
 			MaxPassesChanged += MockingRealtimeDisplayMode_MaxPassesChanged;
+			
 			// start rendering
 			_startTime = DateTime.Now;
 			_isCompleted = false;
@@ -56,7 +57,6 @@ namespace MockingBirdViewport
 
 		private void Reng_RenderStarted(object sender, EventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine("Started");
 			_started = true;
 		}
 
@@ -95,6 +95,11 @@ namespace MockingBirdViewport
 		public override bool IsRendererStarted()
 		{
 			return _started;
+		}
+
+		public override bool OnRenderSizeChanged(int width, int height)
+		{
+			return true;
 		}
 
 		public override void ShutdownRenderer()
