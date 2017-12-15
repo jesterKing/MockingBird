@@ -57,17 +57,17 @@ namespace MockingBirdModal
 			RhinoApp.WriteLine("... done");
 		}
 
-		public override bool SupportsPause()
+		public bool SupportsPause()
 		{
 			return true;
 		}
 
-		public override void PauseRendering()
+		public void PauseRendering()
 		{
 			Paused = true;
 		}
 
-		public override void ResumeRendering()
+		public void ResumeRendering()
 		{
 			Paused = false;
 		}

@@ -147,7 +147,7 @@ namespace MockingBirdViewport
 			return true;
 		}
 
-		public override bool HudShowStatusText()
+		public override bool HudShowCustomStatusText()
 		{
 			return true;
 		}
@@ -157,7 +157,7 @@ namespace MockingBirdViewport
 			return _startTime;
 		}
 
-		public override string HudStatusText()
+		public override string HudCustomStatusText()
 		{
 			return "painting pixels";
 		}

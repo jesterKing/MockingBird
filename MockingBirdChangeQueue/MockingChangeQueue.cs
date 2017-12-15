@@ -22,7 +22,7 @@ namespace MockingBirdChangeQueue
 		// document serial number and view info are given, needed for
 		// the base class
 		public MockingChangeQueue(Guid pluginId, uint docRuntimeSerialNumber, ViewInfo viewinfo)
-			: base(pluginId, docRuntimeSerialNumber, viewinfo)
+			: base(pluginId, docRuntimeSerialNumber, viewinfo, null, true, true)
 		{
 		}
 		
