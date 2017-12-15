@@ -26,12 +26,12 @@ namespace MockingBirdViewport
 		///<returns>The command name as it appears on the Rhino command line.</returns>
 		public override string EnglishName
 		{
-			get { return "MockingViewportCommand"; }
+			get { return "ActivateMockingViewport"; }
 		}
 
 		protected override Result RunCommand(RhinoDoc doc, RunMode mode)
 		{
-			RhinoApp.WriteLine("Mocking Viewport loaded");
+			RhinoApp.RunScript("-_SetCurrentRenderPlugIn \"MockingBird (viewport)\"", true);
 
 
 			return Result.Success;

@@ -25,14 +25,12 @@ namespace MockingBirdModal
 		///<returns>The command name as it appears on the Rhino command line.</returns>
 		public override string EnglishName
 		{
-			get { return "MockingBirdModalCommand"; }
+			get { return "ActivateMockingBirdModal"; }
 		}
 
 		protected override Result RunCommand(RhinoDoc doc, RunMode mode)
 		{
-			// Usually commands in rendering plug-ins are used to modify settings and behavior.
-			// The rendering work itself is performed by the MockingBirdModalPlugIn class.
-
+			RhinoApp.RunScript("-_SetCurrentRenderPlugIn \"MockingBird (modal)\"", true);
 			return Result.Success;
 		}
 	}

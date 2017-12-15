@@ -25,13 +25,12 @@ namespace MockingBirdChangeQueue
 		///<returns>The command name as it appears on the Rhino command line.</returns>
 		public override string EnglishName
 		{
-			get { return "MockingBirdChangeQueueCommand"; }
+			get { return "ActivateMockingBirdChangeQueue"; }
 		}
 
 		protected override Result RunCommand(RhinoDoc doc, RunMode mode)
 		{
-			// Usually commands in rendering plug-ins are used to modify settings and behavior.
-			// The rendering work itself is performed by the MockingBirdChangeQueuePlugIn class.
+			RhinoApp.RunScript("-_SetCurrentRenderPlugIn \"MockingBird (changequeue)\"", true);
 
 			return Result.Success;
 		}
