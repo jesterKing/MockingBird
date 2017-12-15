@@ -36,12 +36,13 @@ namespace MockingBirdModal
 					{
 						channel.SetValue(x, y, Color4f.FromArgb(1.0f, 1.0f, 0.75f, 0.5f));
 						rendered++;
-						do
-						{
-							Thread.Sleep(1);
-						} while (Paused);
+						if (Cancel) break;
 						RenderWindow.SetProgress("rendering...", rendered/max);
 					}
+					do
+					{
+						Thread.Sleep(10);
+					} while (Paused && !Cancel);
 					if (Cancel) break;
 				}
 			}
