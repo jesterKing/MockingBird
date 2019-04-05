@@ -53,5 +53,37 @@ namespace MockingBirdModal
 			return Result.Success;
 		}
 
+		protected override void CreatePreview(CreatePreviewEventArgs args)
+		{
+			Color c;
+			switch(args.Quality) {
+				case PreviewSceneQuality.Low:
+					c = Color.Aquamarine;
+					break;
+				case PreviewSceneQuality.Medium:
+					c = Color.OrangeRed;
+					break;
+				case PreviewSceneQuality.Full:
+					c = Color.ForestGreen;
+					break;
+				default:
+					c = Color.DimGray;
+					break;
+			}
+			var bm = new Bitmap(args.PreviewImageSize.Width+4, args.PreviewImageSize.Height+4);
+			for (int x = 0; x < args.PreviewImageSize.Width+4; x++)
+			{
+				for (int y = 0; y < args.PreviewImageSize.Height+4; y++)
+				{
+					bm.SetPixel(x, y, c);
+				}
+			}
+			args.PreviewImage = bm;
+			if (args.Quality == PreviewSceneQuality.Low) return;
+			System.Threading.Thread.Sleep(15000);
+			args.PreviewImage = bm;
+
+		}
+
 	}
 }
