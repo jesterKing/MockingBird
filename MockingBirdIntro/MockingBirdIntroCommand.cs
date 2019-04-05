@@ -7,6 +7,8 @@ using Rhino.Input.Custom;
 
 namespace MockingBirdIntro
 {
+
+	[CommandStyle(Style.ScriptRunner)]
 	public class MockingBirdIntroCommand : Command
 	{
 		public MockingBirdIntroCommand()
