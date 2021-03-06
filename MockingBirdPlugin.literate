@@ -1,0 +1,184 @@
+# RenderEngine Integration In Rhino With The ChangeQueue
+
+Rhino offers a mechanism to integrate render engines. The mechanism is called
+the ChangeQueue. The central idea is to provide all Rhino data in a preprocessed
+form.
+
+For instance the block definitions and their instances get handled completely
+before the resulting mesh data is pushed to the client.
+
+In this book we'll look at how one could go about integrating a new render
+engine into Rhino using its RhinoCommon SDK.
+
+We'll also see how a plug-in in general should be set up, what information is
+needed. We will also be able to add some functionality during the load phase of
+the plug-in.
+
+When you get to the end of this bookation you should have a good understanding
+of the Rhino plug-in base class. You will have read the entire code for a simple
+render engine integration that shows the main mechanisms of the ChangeQueue from
+the realtime render SDK.
+
+## The PlugIn Implementation
+
+The main class for the plug-in is in `<<MockingBirdPlugIn.*>>`. It derives from
+`Rhino.PlugIns.RenderPlugIn` and will override two functions. The basis for the
+plug-in is:
+
+```csharp : <<MockingBirdPlugIn.*>>=
+<<plugin imports>>
+namespace MockingBird
+{
+    public class MockingBirdPlugIn : Rhino.PlugIns.RenderPlugin
+    {
+        <<plug-in constructor>>
+        <<plug-in properties>>
+        <<plug-in overrides>>
+    }
+}
+```
+
+### Assembly Information
+
+For the plug-in to be a proper RHP assembly we also need to add the necessary
+assembly information, which we'll do with `<<AssemblyInfo.*>>`.
+
+```csharp : <<AssemblyInfo.*>>=
+<<assembly info imports>>
+<<plug-in description>>
+<<assembly information>>
+<<assembly GUID>>
+<<plug-in version>>
+```
+
+The assembly information carries the plug-in developer information, like the
+address, organization, website and so on. This information is given through the
+`PlugInDescription` attribute from the `Rhino.PlugIns` namespace. The fields have
+to exist, yet you need to enter only the data you really want to share. It is a
+good idea to give users of your plug-in enough information for them to be able to
+contact you in case they have feature requests, feedback or bug reports.
+
+```csharp : <<plug-in description>>=
+[assembly: PlugInDescription(DescriptionType.Address, "Turku")]
+[assembly: PlugInDescription(DescriptionType.Country, "Finland")]
+[assembly: PlugInDescription(DescriptionType.Email, "jesterking@letwory.net")]
+[assembly: PlugInDescription(DescriptionType.Phone, "-")]
+[assembly: PlugInDescription(DescriptionType.Fax, "-")]
+[assembly: PlugInDescription(DescriptionType.Organization, "Letwory Interactive")]
+[assembly: PlugInDescription(DescriptionType.UpdateUrl, "-")]
+[assembly: PlugInDescription(DescriptionType.WebSite, "https://letworyinteractive.com")]
+```
+
+To be able to use the attribute we'll import `Rhino.PlugIns` here.
+
+```csharp : <<assembly info imports>>=
+using Rhino.PlugIns;
+```
+
+Apart from these developer fields the assembly needs to be tagged with the necessary
+attributes. Fill out as much information as possible for completeness.
+
+```csharp : <<assembly information>>=
+[assembly: AssemblyTitle("Mocking Bird")] // Plug-In title is extracted from this
+[assembly: AssemblyDescription("A sample render plug-in for Rhinoceros")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Letwory Interactive")]
+[assembly: AssemblyProduct("Mocking Bird")]
+[assembly: AssemblyCopyright("Copyright ©  2016-")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+[assembly: ComVisible(false)]
+```
+
+These attributes need also their namespaces, so lets add them to the `<<assembly info imports>>`:
+
+```csharp : <<assembly info imports>>=+
+using System.Reflection;
+using System.RuntimeCompilerServices;
+using System.Runtime.InteropServices;
+```
+
+There are still two pieces to the plug-in assembly information we need to provide.
+The first is the GUID of the plug-in. This will be used to uniquely identify
+plug-ins in the Rhino eco-system. There can be only one plug-in with this GUID.
+If Rhino detects multiple plug-ins with the same GUID only the first one found and
+loaded will remain in Rhino, the others with the same GUID will be ignored. Rhino
+**will** prompt with an error dialog.
+
+The GUID of the plug-in has to be different from any other plug-in, so when you
+create your own plug-in make sure you don't copy and paste the one used in this
+book.
+
+```csharp : <<assembly GUID>>=
+[assembly: Guid("ccb6ab63-fdef-44ac-9c1f-7eca810d5b75")]
+```
+
+Finally the version number of the plug-in. This number should be bumped with each
+new release.
+
+```csharp : <<plug-in version>>=
+[assembly: AssemblyVersion("0.9.1.0")]
+[assembly: AssemblyFileVersion("0.9.1.0")]
+```
+### Plug-in Skeleton
+
+We'll have a constructor added to `<<plug-in constructor>>` that sets up the singleton pattern.
+
+```csharp : <<plug-in constructor>>=
+public MockingBirdPlugIn()
+{
+    if(Instance == null) Instance = this;
+}
+```
+
+To be able to properly construct an instance we need to have at least the
+`Instance` property available. We ensure that only in an instance we can set a
+new value. In our case, as seen above we do that in the constructor.
+
+```csharp : <<plug-in properties>>=
+public static MockingBirdPlugIn Instance
+{
+    get; private set;
+}
+```
+
+At this moment we're interested in two overrides, namely `Render` and `RenderWindow`.
+These are entry functions for doing a modal render. We'll start by setting this
+part of the render integration up. In later chapters we'll see how to expand the
+plug-in to have interactive viewport rendering capabilities.
+
+Let is start with the `Render` override. It'll take a `RhinoDoc` instance which
+will be the document to render. As second parameter there'll be a `Commands.RunMode`. This
+will tell whether the `_Render` command is used interactively, i.e. the user pressed
+a button, or typed the command into the Rhino command-line. Or whether it was
+called in a script.
+
+```csharp : <<plug-in overrides>>=
+protected override Rhino.Commands.Result Render(RhinoDoc doc, Rhino.Commands.RunMode mode, bool fastPreview)
+{
+    <<modal render implementation>>
+}
+```
+
+`Result` and `RunMode` come both from the `Rhino.Commands` namespace, so let's ensure
+we can use them. `RhinoDoc` comes from the `Rhino` namespace.
+
+```csharp : <<plugin imports>>=
+using Rhino;
+using Rhino.Commands;
+```
+
+The second override that we want to introduce at this point is `RenderWindow`. It
+has the same three first parameters as `Render`, but additionally there is a `RhinoView`
+for the view to render from, in case it is different from the active view. And
+there is a `Rectangle` that gives the area to render from the given view. The
+last bool tells us whether the rendering should happen in the viewport, or in
+a separate window.
+
+
+```csharp : <<plug-in overrides>>=+
+protected override Rhino.Commands.Result RenderWindow(RhinoDoc doc, Rhino.Commands.RunMode mode, bool fastPreview, Rhino.Display.RhinoView view, System.Drawing.Rectangle rect, bool inWindow)
+{
+    <<modal render window implementation>>
+}
+```
