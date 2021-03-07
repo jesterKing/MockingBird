@@ -1,6 +1,7 @@
 using Rhino;
 using Rhino.Commands;
 using Rhino.PlugIns;
+using Rhino.Render;
 using Rhino.Display;
 using System.Drawing;
 namespace MockingBird
@@ -29,19 +30,19 @@ namespace MockingBird
             var rc = RenderPipeline.RenderReturnCode.InternalError;
             using (var rsv = new RenderSourceView(doc))
             {
-        << find view >>
+                << find view >>
 
-         << setup modal render engine >>
+                << setup modal render engine >>
 
-          << initialize render pipeline>>
+                << initialize render pipeline>>
 
-           << engine creates world>>
+                << engine creates world>>
 
-            << render modal or in view >>
+                << render modal or in view >>
 
-             << clean - up >>
+                << clean - up >>
 
-        return Result.Success;
+                return Result.Success;
             }
         }
     }

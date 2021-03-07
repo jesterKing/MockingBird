@@ -161,12 +161,13 @@ protected override Result Render(RhinoDoc doc, RunMode mode, bool fastPreview)
 ```
 
 `Result` and `RunMode` come both from the `Rhino.Commands` namespace, so let's ensure
-we can use them. `RhinoDoc` comes from the `Rhino` namespace. We'll also need `Rhino.PlugIns`;
+we can use them. `RhinoDoc` comes from the `Rhino` namespace. We'll also need `Rhino.PlugIns` and `Rhino.Render`;
 
 ```csharp : <<plugin imports>>=
 using Rhino;
 using Rhino.Commands;
 using Rhino.PlugIns;
+using Rhino.Render;
 ```
 
 The second override that we want to introduce at this point is `RenderWindow`. It
