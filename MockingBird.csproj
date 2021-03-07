@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <EnableDefaultItems>True</EnableDefaultItems>
+        <AssemblyName>MockingBird</AssemblyName>
+    </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="RhinoCommon" Version="7.3.21053.23031">
+        <ExcludeAssets>runtime</ExcludeAssets>
+      </PackageReference>
+    </ItemGroup>
+</Project>

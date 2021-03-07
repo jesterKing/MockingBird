@@ -22,14 +22,14 @@ the realtime render SDK.
 ## The PlugIn Implementation
 
 The main class for the plug-in is in `<<MockingBirdPlugIn.*>>`. It derives from
-`Rhino.PlugIns.RenderPlugIn` and will override two functions. The basis for the
+`RenderPlugIn` and will override two functions. The basis for the
 plug-in is:
 
 ```csharp : <<MockingBirdPlugIn.*>>=
 <<plugin imports>>
 namespace MockingBird
 {
-    public class MockingBirdPlugIn : Rhino.PlugIns.RenderPlugin
+    public class MockingBirdPlugIn : RenderPlugIn
     {
         <<plug-in constructor>>
         <<plug-in properties>>
@@ -94,7 +94,6 @@ These attributes need also their namespaces, so lets add them to the `<<assembly
 
 ```csharp : <<assembly info imports>>=+
 using System.Reflection;
-using System.RuntimeCompilerServices;
 using System.Runtime.InteropServices;
 ```
 
@@ -154,18 +153,19 @@ a button, or typed the command into the Rhino command-line. Or whether it was
 called in a script.
 
 ```csharp : <<plug-in overrides>>=
-protected override Rhino.Commands.Result Render(RhinoDoc doc, Rhino.Commands.RunMode mode, bool fastPreview)
+protected override Result Render(RhinoDoc doc, RunMode mode, bool fastPreview)
 {
     <<modal render implementation>>
 }
 ```
 
 `Result` and `RunMode` come both from the `Rhino.Commands` namespace, so let's ensure
-we can use them. `RhinoDoc` comes from the `Rhino` namespace.
+we can use them. `RhinoDoc` comes from the `Rhino` namespace. We'll also need `Rhino.PlugIns`;
 
 ```csharp : <<plugin imports>>=
 using Rhino;
 using Rhino.Commands;
+using Rhino.PlugIns;
 ```
 
 The second override that we want to introduce at this point is `RenderWindow`. It
@@ -177,8 +177,27 @@ a separate window.
 
 
 ```csharp : <<plug-in overrides>>=+
-protected override Rhino.Commands.Result RenderWindow(RhinoDoc doc, Rhino.Commands.RunMode mode, bool fastPreview, Rhino.Display.RhinoView view, System.Drawing.Rectangle rect, bool inWindow)
+protected override Result RenderWindow(RhinoDoc doc, RunMode mode, bool fastPreview, RhinoView view, Rectangle rect, bool inWindow)
 {
     <<modal render window implementation>>
 }
+```
+
+We also want `RhinoView` from the namespace `Rhino.Display` and `Rectangle` from `System.Drawing`:
+
+```csharp : <<plugin imports>>=+
+using Rhino.Display;
+using System.Drawing;
+```
+
+## Modal Rendering
+
+``` csharp : <<modal render implementation>>=
+return Result.Success;
+```
+
+## Modal Window Rendering
+
+``` csharp : <<modal render window implementation>>=
+return Result.Success;
 ```
