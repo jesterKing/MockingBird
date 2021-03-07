@@ -34,6 +34,7 @@ namespace MockingBird
         <<plug-in constructor>>
         <<plug-in properties>>
         <<plug-in overrides>>
+        <<plug-in private methods>>
     }
 }
 ```
@@ -179,7 +180,7 @@ a separate window.
 ```csharp : <<plug-in overrides>>=+
 protected override Result RenderWindow(RhinoDoc doc, RunMode mode, bool fastPreview, RhinoView view, Rectangle rect, bool inWindow)
 {
-    <<modal render window implementation>>
+    <<render window implementation>>
 }
 ```
 
@@ -190,14 +191,47 @@ using Rhino.Display;
 using System.Drawing;
 ```
 
-## Modal Rendering
+## Modal Rendering Setup
+
+Modal rendering is also knows as production or off-line rendering. In Rhino a modal rendering is started using the `_Render` command.
+
+Both this method and the `RenderWindow` method are very similar. You'll see there are minor differences in setting them up.
+
+For the modal render case we set up a rectangle which encompasses the requested full render size. The point is at 0, 0. The resolution is queried from the document using `RenderPipeline.RenderSize`.
 
 ``` csharp : <<modal render implementation>>=
-return Result.Success;
+Rectangle rect = new Rectangle(new Point(0,0), RenderPipeline.RenderSize(doc, true));
+return RenderWithMockingBird(doc, mode, rect, true);
 ```
 
-## Modal Window Rendering
+## Window Rendering Setup
 
-``` csharp : <<modal render window implementation>>=
-return Result.Success;
+Window rendering is essentially a modal render, except the user is asked by Rhino to draw a rectangle in the viewport of choice. This rectangle is the part
+that will be rendered and shown either as an overlay on the viewport, or in a separate render window like the one you get with `_Render`.
+
+``` csharp : <<render window implementation>>=
+return RenderWithMockingBird(doc, mode, rect, inWindow);
+```
+
+## RenderWithMockingBird
+
+Both modal rendering entries we saw earlier use `RenderWithMockingBird` to set up and execute the actual render.
+
+Since Rhino 6 there is a helper class that should be used to acquire the correct active view that should be rendered. `RenderSourceView` needs to be used in a `using` construct. Inside the `using` we'll actually set up our render and do the rest.
+
+```csharp : <<plug-in private methods>>=
+private Result RenderWithMockingBird(RhinoDoc doc, RunMode mode, Rectangle rect, bool inWindow)
+{
+    var rc = RenderPipeline.RenderReturnCode.InternalError;
+    using(var rsv = new RenderSourceView(doc)) {
+        <<find view>>
+        <<setup modal render engine>>
+        <<initialize render pipeline>>
+        <<engine creates world>>
+        <<render modal or in view>>
+        <<clean-up>>
+
+        return Result.Success;
+    }
+}
 ```

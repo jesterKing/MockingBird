@@ -17,11 +17,32 @@ namespace MockingBird
         }
         protected override Result Render(RhinoDoc doc, RunMode mode, bool fastPreview)
         {
-            return Result.Success;
+            Rectangle rect = new Rectangle(new Point(0, 0), RenderPipeline.RenderSize(doc, true));
+            return RenderWithMockingBird(doc, mode, rect, true);
         }
         protected override Result RenderWindow(RhinoDoc doc, RunMode mode, bool fastPreview, RhinoView view, Rectangle rect, bool inWindow)
         {
-            return Result.Success;
+            return RenderWithMockingBird(doc, mode, rect, inWindow);
+        }
+        private Result RenderWithMockingBird(RhinoDoc doc, RunMode mode, Rectangle rect, bool inWindow)
+        {
+            var rc = RenderPipeline.RenderReturnCode.InternalError;
+            using (var rsv = new RenderSourceView(doc))
+            {
+        << find view >>
+
+         << setup modal render engine >>
+
+          << initialize render pipeline>>
+
+           << engine creates world>>
+
+            << render modal or in view >>
+
+             << clean - up >>
+
+        return Result.Success;
+            }
         }
     }
 }
