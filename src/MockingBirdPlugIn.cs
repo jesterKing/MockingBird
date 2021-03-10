@@ -4,6 +4,7 @@ using Rhino.PlugIns;
 using Rhino.Render;
 using Rhino.Display;
 using System.Drawing;
+using Rhino.DocObjects;
 namespace MockingBird
 {
     public class MockingBirdPlugIn : RenderPlugIn
@@ -30,17 +31,13 @@ namespace MockingBird
             var rc = RenderPipeline.RenderReturnCode.InternalError;
             using (var rsv = new RenderSourceView(doc))
             {
-                << find view >>
-
-                << setup modal render engine >>
-
-                << initialize render pipeline>>
-
-                << engine creates world>>
-
-                << render modal or in view >>
-
-                << clean - up >>
+                ViewInfo vi = rsv.GetViewInfo();
+                Size renderSize = inWindow ? rect.Size : vi.Viewport.GetScreenPort().Size;
+                /* setup modal render engine */
+                /* initialize render pipeline */
+                /* engine creates world */
+                /* render modal or in view */
+                /* modal render clean-up */
 
                 return Result.Success;
             }

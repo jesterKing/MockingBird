@@ -21,11 +21,11 @@ the realtime render SDK.
 
 ## The PlugIn Implementation
 
-The main class for the plug-in is in `<<MockingBirdPlugIn.*>>`. It derives from
+The main class for the plug-in is in `<<Mocking Bird Plug-in.*>>`. It derives from
 `RenderPlugIn` and will override two functions. The basis for the
 plug-in is:
 
-```csharp : <<MockingBirdPlugIn.*>>=
+```csharp : <<Mocking Bird Plug-in.*>>= ./MockingBirdPlugIn.cs
 <<plugin imports>>
 namespace MockingBird
 {
@@ -44,7 +44,7 @@ namespace MockingBird
 For the plug-in to be a proper RHP assembly we also need to add the necessary
 assembly information, which we'll do with `<<AssemblyInfo.*>>`.
 
-```csharp : <<AssemblyInfo.*>>=
+```csharp : <<AssemblyInfo.*>>= ./AssemblyInfo.cs
 <<assembly info imports>>
 <<plug-in description>>
 <<assembly information>>
@@ -230,9 +230,44 @@ private Result RenderWithMockingBird(RhinoDoc doc, RunMode mode, Rectangle rect,
         <<initialize render pipeline>>
         <<engine creates world>>
         <<render modal or in view>>
-        <<clean-up>>
+        <<modal render clean-up>>
 
         return Result.Success;
     }
 }
+```
+
+We have now the main structure for setup, render start and the clean-up at the end. We need to get the correct view and the requested render resolution. If `inWindow` is `true` need to use the size as given in `rect`. If it is `false` we use the screen port size from the viewport. From the RenderSourceView we first get the `ViewInfo` of the view we need to render. This in turn gives access to the viewport through which we query for the screen port size.
+
+```csharp : <<find view>>=
+ViewInfo vi = rsv.GetViewInfo();
+Size renderSize= inWindow ? rect.Size : vi.Viewport.GetScreenPort().Size;
+```
+
+Since `ViewInfo` is from the namespace `Rhino.DocObjects` we need to add it to `<<plugin imports>>`:
+
+```csharp : <<plugin imports>>=+
+using Rhino.DocObjects;
+```
+
+Then we should set up a pipeline. We'll look at the implementation of the pipeline in a separate chapter. For now suffice to say that it is an implementation derived from `Rhino.Render.RenderPipeline`.
+
+```csharp : <<setup modal render engine>>=
+/* setup modal render engine */
+```
+
+```csharp : <<initialize render pipeline>>=
+/* initialize render pipeline */
+```
+
+```csharp : <<engine creates world>>=
+/* engine creates world */
+```
+
+```csharp : <<render modal or in view>>=
+/* render modal or in view */
+```
+
+```csharp : <<modal render clean-up>>=
+/* modal render clean-up */
 ```
